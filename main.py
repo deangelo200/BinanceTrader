@@ -108,4 +108,4 @@ def getPriceThatDay(crytoName, currencyName, timeStamp):
 # print(exampletwo)
 traderDepositHistroy()
 
-#now i get it 
+#now i get it dd
