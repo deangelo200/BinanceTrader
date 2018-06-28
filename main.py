@@ -107,3 +107,5 @@ def getPriceThatDay(crytoName, currencyName, timeStamp):
 # exampletwo = datetime.datetime(2018,3,3)
 # print(exampletwo)
 traderDepositHistroy()
+
+#update
