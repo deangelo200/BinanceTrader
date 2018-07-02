@@ -1,7 +1,6 @@
 from binance.client import Client
 import datetime
 import cryptocompare
-
 import csv
 
 api_key = "EoY3LVBR1lPic8kjbKVnLw1RGOsviNeV2s5hTo7PrRCeMXJDg4l30qhULYiegQCl"
@@ -9,8 +8,9 @@ api_secret_key = "PZFiRqnuVIlFBkrAomEriGBeDMCfUgV4tYjGuXuZSzcK04c22ndxSBfKm4uWbV
 client = Client(api_key, api_secret_key)
 
 withdraws = client.get_withdraw_history()
-
 deposit = client.get_deposit_history()
+
+
 
 
 asset = 'asset'
@@ -18,6 +18,9 @@ amount = 'amount'
 txld = 'txId'
 date = 'insertTime'
 valueAtTheTime = 'Value of Crypto'
+
+# used to keep track of all trading pairs
+globalSymbolsList=[]
 
 # get crypto deposite history
 def traderDepositHistroy():
@@ -44,7 +47,6 @@ def traderDepositHistroy():
             count = count + 1
 
 # get crypto withdraw history
-
 def traderWithdrawHistroy():
     with open("CryptoTrader Withdraw History.csv", "w") as csvfile:
         fieldnames = ['asset', 'amount', 'txId', 'date' ,'Value of Crypto']
@@ -69,8 +71,6 @@ def traderWithdrawHistroy():
                              })
             count = count + 1
 
-
-
 # convert time stamp to date
 def timeStampConverter(unixTime):
 
@@ -78,34 +78,35 @@ def timeStampConverter(unixTime):
     newTime  =   datetime.datetime.utcfromtimestamp(time)
     return newTime
 
-
+# get price of crypto for a giving day
 def getPriceThatDay(crytoName, currencyName, timeStamp):
     price = cryptocompare.get_historical_price(crytoName, currencyName, timeStamp)
     return price[crytoName][currencyName]
 
+#get crypto balance
+def getCryptoBalance():
+    temp = []
+    info = client.get_account()
+    for key in info['balances']:
+        if float(key['free']) > 0.0001:
+            temp.append(key)
+        else:
+            pass
+
+    return temp
 
 
 
 
+# time to get some trades
+def getSymbols():
+    info = client.get_exchange_info()
+    for i in info['symbols']:
+        globalSymbolsList.append(i['symbol'])
+        
 
 
 
 
-
-
-
-
-
-
-
-# example = getPriceThatDay('NEO', 'USD', timeStamp=timeStampConverter(1520060622000))
-# print(example['NEO']['USD'])
-# exampleone = timeStampConverter(1520060622000)
-# print(exampleone)
-#
-#
-# exampletwo = datetime.datetime(2018,3,3)
-# print(exampletwo)
-traderDepositHistroy()
-
-#nfuuuu
+for i in info['symbols']:
+   print(i['symbol'])
