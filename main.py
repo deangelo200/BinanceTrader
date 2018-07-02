@@ -20,7 +20,6 @@ date = 'insertTime'
 valueAtTheTime = 'Value of Crypto'
 
 # used to keep track of all trading pairs
-globalSymbolsList=[]
 
 # get crypto deposite history
 def traderDepositHistroy():
@@ -101,12 +100,15 @@ def getCryptoBalance():
 # time to get some trades
 def getSymbols():
     info = client.get_exchange_info()
+    tradeSymbols =  open("CryptoTrader Trading Pairs.txt", "a")
     for i in info['symbols']:
-        globalSymbolsList.append(i['symbol'])
-        
+        tradeSymbols.write(i['symbol'])
+
+    tradeSymbols.close()
+
+
+getSymbols()
 
 
 
 
-for i in info['symbols']:
-   print(i['symbol'])
