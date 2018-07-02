@@ -16,7 +16,8 @@ deposit = client.get_deposit_history()
 asset = 'asset'
 amount = 'amount'
 txld = 'txId'
-date = 'insertTime'
+depositdate = 'insertTime'
+withdrawdate = 'applyTime'
 valueAtTheTime = 'Value of Crypto'
 
 # used to keep track of all trading pairs
@@ -31,16 +32,16 @@ def traderDepositHistroy():
         while (count < len(deposit['depositList'])):
 
             #convert unix time
-            convertedUnixDate = timeStampConverter(deposit['depositList'][count][date])
+            convertedUnixDate = timeStampConverter(deposit['depositList'][count][depositdate])
 
             # get value of crypto deposit for that day
-            value = getPriceThatDay(deposit['depositList'][count][asset], 'USD', timeStampConverter(deposit['depositList'][count][date]))*deposit['depositList'][count][amount]
+            value = getPriceThatDay(deposit['depositList'][count][asset], 'USD', timeStampConverter(deposit['depositList'][count][depositdate]))*deposit['depositList'][count][amount]
 
             # write data to the csv file
             writer.writerow({asset: deposit['depositList'][count][asset],
                              amount: deposit['depositList'][count][amount],
                              txld: deposit['depositList'][count][txld],
-                             date: convertedUnixDate,
+                             depositdate: convertedUnixDate,
                              valueAtTheTime: value
                              })
             count = count + 1
@@ -48,24 +49,24 @@ def traderDepositHistroy():
 # get crypto withdraw history
 def traderWithdrawHistroy():
     with open("CryptoTrader Withdraw History.csv", "w") as csvfile:
-        fieldnames = ['asset', 'amount', 'txId', 'date' ,'Value of Crypto']
+        fieldnames = ['asset', 'amount', 'txId', 'applyTime', 'Value of Crypto', ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         count = 0
         while (count < len(withdraws['withdrawList'])):
             # convert unix time
-            convertedUnixDate = timeStampConverter(deposit['withdrawList'][count][date])
+            convertedUnixDate = timeStampConverter(withdraws['withdrawList'][count][withdrawdate])
 
             # get value of crypto deposit for that day
-            value = getPriceThatDay(deposit['withdrawList'][count][asset], 'USD',
-                                    timeStampConverter(deposit['withdrawList'][count][date])) * \
-                    deposit['depositList'][count][amount]
+            value = getPriceThatDay(withdraws['withdrawList'][count][asset], 'USD',
+                                    timeStampConverter(withdraws['withdrawList'][count][withdrawdate])) * \
+                    withdraws['withdrawList'][count][amount]
 
             # write data to the csv file
-            writer.writerow({asset: deposit['withdrawList'][count][asset],
-                             amount: deposit['withdrawList'][count][amount],
-                             txld: deposit['withdrawList'][count][txld],
-                             date: convertedUnixDate,
+            writer.writerow({asset: withdraws['withdrawList'][count][asset],
+                             amount: withdraws['withdrawList'][count][amount],
+                             txld: withdraws['withdrawList'][count][txld],
+                             withdrawdate: convertedUnixDate,
                              valueAtTheTime: value
                              })
             count = count + 1
@@ -100,15 +101,13 @@ def getCryptoBalance():
 # time to get some trades
 def getSymbols():
     info = client.get_exchange_info()
-    tradeSymbols =  open("CryptoTrader Trading Pairs.txt", "a")
+    tradeSymbols =  open("CryptoTrader Trading Pairs.txt", "w")
     for i in info['symbols']:
         tradeSymbols.write(i['symbol'])
-
+        tradeSymbols.write('\n')
     tradeSymbols.close()
 
-
-getSymbols()
-
+# get trades base on symbols
 
 
 
