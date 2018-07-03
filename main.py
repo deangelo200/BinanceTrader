@@ -111,13 +111,16 @@ def getSymbols():
 
 def getTrades(fileName):
     tradingPairs = open(fileName).read().split("\n")
-
+    tradeHistory = []
     count = 0
     while(count<10):
-
-        tradeHistory=(client.get_historical_trades(symbol =tradingPairs[count]))
+        tradeHistory+=(client.get_historical_trades(symbol =tradingPairs[count]))
         count = count+1
+    with open("CryptoTrader Trade History.csv", "w") as csvfile:
+        fieldnames = [ 'symbol', 'id', 'price', 'qty', 'time',]
+
     return tradeHistory
+
 
 
 #getSymbols()
