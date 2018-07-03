@@ -111,9 +111,13 @@ def getSymbols():
 
 def getTrades(fileName):
     tradingPairs = open(fileName).read().split("\n")
-    for pairs in file
-    return file
 
+    count = 0
+    while(count<10):
+
+        tradeHistory=(client.get_historical_trades(symbol =tradingPairs[count]))
+        count = count+1
+    return tradeHistory
 
 
 #getSymbols()
@@ -133,5 +137,4 @@ def getTrades(fileName):
 #     count = count + 1
 
 test = getTrades(tradingPairsFileName)
-print(type(test))
 print(test)
