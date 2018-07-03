@@ -19,6 +19,7 @@ txld = 'txId'
 depositdate = 'insertTime'
 withdrawdate = 'applyTime'
 valueAtTheTime = 'Value of Crypto'
+tradingPairsFileName = 'CryptoTrader Trading Pairs.txt'
 
 # used to keep track of all trading pairs
 
@@ -103,11 +104,34 @@ def getSymbols():
     info = client.get_exchange_info()
     tradeSymbols =  open("CryptoTrader Trading Pairs.txt", "w")
     for i in info['symbols']:
-        tradeSymbols.write(i['symbol'])
-        tradeSymbols.write('\n')
+        tradeSymbols.write('{}{}'.format(i['symbol'], '\n'))
     tradeSymbols.close()
 
 # get trades base on symbols
 
+def getTrades(fileName):
+    tradingPairs = open(fileName).read().split("\n")
+    for pairs in file
+    return file
 
 
+
+#getSymbols()
+# example = getTrades(tradingPairsFileName)
+# print(example)
+# count = 0
+# file = open(tradingPairsFileName, 'r')
+# while (count < 2):
+#
+#     pair = file.readline()
+#     if (pair == " "):
+#         pass
+#     else:
+#
+#         print(pair)
+#         client.get_historical_trades(symbol=pair)
+#     count = count + 1
+
+test = getTrades(tradingPairsFileName)
+print(type(test))
+print(test)
