@@ -110,15 +110,25 @@ def getSymbols():
 # get trades base on symbols
 
 def getTrades(fileName):
-    tradingPairs = open(fileName).read().split("\n")
-    tradeHistory = []
-    count = 0
-    while(count<10):
-        tradeHistory+=(client.get_historical_trades(symbol =tradingPairs[count]))
-        count = count+1
-    with open("CryptoTrader Trade History.csv", "w") as csvfile:
-        fieldnames = [ 'symbol', 'id', 'price', 'qty', 'time',]
+    # symbol = 'symbol'
+    # id = 'id'
+    # price = 'price'
+    # qty = 'qty'
+    # time = 'time'
+    # tradingPairs = open(fileName).read().split("\n")
+    # tradeHistory = []
+    # count = 0
+    # while(count<10):
+    #     tradeHistory+=(client.get_historical_trades(symbol =tradingPairs[count]))
+    #     count = count+1
 
+    # with open("CryptoTrader Trade History.csv", "w") as csvfile:
+    #     fieldnames = [ symbol, id, price, qty, time,]
+    #     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    #     writer.writeheader()
+    #     writer.writerow({'symbol':tradeHistory[]})
+
+    tradeHistory = client.get_my_trades(symbol='ONTBTC')
     return tradeHistory
 
 
@@ -140,4 +150,7 @@ def getTrades(fileName):
 #     count = count + 1
 
 test = getTrades(tradingPairsFileName)
-print(test)
+print(timeStampConverter(1530661140621))
+for i in test:
+    print(i)
+    print('\n')
